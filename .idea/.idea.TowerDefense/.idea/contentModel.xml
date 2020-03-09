@@ -8,16 +8,21 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="AppInfrastructure" t="Include">
-            <e p="GameStarter.cs" t="Include" />
+            <e p="IInitableView.cs" t="Include" />
             <e p="ILoadablePresenter.cs" t="Include" />
             <e p="Presenter.cs" t="Include" />
             <e p="PresenterLoader.cs" t="Include" />
+            <e p="TowersSceneController.cs" t="Include" />
+            <e p="View.cs" t="Include" />
             <e p="ViewablePresenter.cs" t="Include" />
           </e>
           <e p="Towers" t="Include">
             <e p="TowerData.cs" t="Include" />
+            <e p="TowerMenuItemAction.cs" t="Include" />
             <e p="TowerSystemPresenter.cs" t="Include" />
             <e p="Views" t="Include">
+              <e p="TowerMenuItem.cs" t="Include" />
+              <e p="TowerMenuView.cs" t="Include" />
               <e p="TowerSlotView.cs" t="Include" />
               <e p="TowerSystemView.cs" t="Include" />
               <e p="TowerView.cs" t="Include" />

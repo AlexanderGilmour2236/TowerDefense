@@ -6,10 +6,12 @@ using UnityEngine;
 
 namespace AppInfrastructure
 {
-    public class GameStarter : MonoBehaviour
+    public class TowersSceneController : MonoBehaviour
     {
         [SerializeField] 
         private Transform towerSystemParent;
+        [SerializeField] 
+        private Canvas _canvas;
         
         private PresenterLoader _presenterLoader;
 

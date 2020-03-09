@@ -64,6 +64,10 @@ MonoBehaviour:
   - {fileID: 6945081306483015901}
   - {fileID: 6945081306431328598}
   - {fileID: 6945081305309128424}
+  buyTowerMenuViewPrefab: {fileID: 8759032400633915098, guid: eefa565c555339e46ba0a44bce5909a5,
+    type: 3}
+  editTowerMenuViewPrefab: {fileID: 7952888850728790130, guid: 606ef75bd598c54458ed9c21fb26f690,
+    type: 3}
   availableTowers:
   - {fileID: 11400000, guid: f36d7c5c0ea5b3c4197f80c7f460756c, type: 2}
   - {fileID: 11400000, guid: 3208f8dd94e552c44b71b523452d20a4, type: 2}

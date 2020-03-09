@@ -1,12 +1,13 @@
-﻿using 
-    AppInfrastructure;
+﻿using System;
+using AppInfrastructure;
 using Towers.Views;
-using UnityEngine;
 
 namespace Towers
 {
     public class TowerSystemPresenter : ViewablePresenter<TowerSystemView>
     {
+        public event Action<TowerSlotView> TowerSlotClick;
+        
         public override void OnPresenterLoaded()
         {
             View.TowerSlotClick += OnTowerSlotClick;
@@ -21,7 +22,7 @@ namespace Towers
 
         private void OnTowerSlotClick(TowerSlotView towerSlot)
         {
-            Debug.Log("CLICKED");
+            TowerSlotClick?.Invoke(towerSlot);
         }
     }
 }

@@ -11,8 +11,14 @@ namespace Towers.Views
         private List<TowerSlotView> towerSlotViews;
 
         [SerializeField] 
+        private TowerMenuView buyTowerMenuViewPrefab;
+        [SerializeField]
+        private TowerMenuView editTowerMenuViewPrefab;
+        
+        [SerializeField] 
         private TowerData[] availableTowers;
         
+        private TowerMenuView _currentTowerMenuView;
         public event Action<TowerSlotView> TowerSlotClick;
 
         public void Start()
@@ -36,6 +42,14 @@ namespace Towers.Views
         private void OnTowerSlotClick(TowerSlotView towerSlot)
         {
             TowerSlotClick?.Invoke(towerSlot);
+        }
+
+        public void ShowMenu(TowerMenuView towerMenuView)
+        {
+            if(_currentTowerMenuView != null) 
+                Destroy(_currentTowerMenuView.gameObject);
+
+            _currentTowerMenuView = towerMenuView;
         }
     }
 }

@@ -6,21 +6,21 @@ namespace Towers.Views
 {
     public class TowerSlotView : MonoBehaviour, IPointerClickHandler
     {
-        private TowerView _towerView;
+        public TowerView TowerView { get; private set; }
 
         public event Action<TowerSlotView> SlotClick;
         
         public void SetTower(TowerView towerView)
         {
-            _towerView = towerView;
+            TowerView = towerView;
         }
 
         public bool SellTower()
         {
-            if (_towerView == null) return false;
+            if (TowerView == null) return false;
             
-            Destroy(_towerView.gameObject);
-            _towerView = null;
+            Destroy(TowerView.gameObject);
+            TowerView = null;
             return true;
 
         }

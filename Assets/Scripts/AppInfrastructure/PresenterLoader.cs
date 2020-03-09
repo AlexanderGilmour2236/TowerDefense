@@ -25,6 +25,11 @@ namespace AppInfrastructure
 
         public void UnLoad(Type presenterType)
         {
+            if (!_loadedPresenters.ContainsKey(presenterType))
+            {
+                Debug.Log($"There is no loaded module of type {presenterType.Name}");
+                return;
+            }
             Object.Destroy(_loadedPresenters[presenterType].GetView.gameObject);
             _loadedPresenters[presenterType].OnPresenterUnloaded();
             _loadedPresenters[presenterType] = null;
