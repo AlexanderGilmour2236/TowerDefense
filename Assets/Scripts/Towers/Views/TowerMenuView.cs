@@ -1,34 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Towers.Views
 {
     public class TowerMenuView : MonoBehaviour
     {
-        [SerializeField]
-        private TowerMenuItem[] _items;
-
-        public event Action<TowerMenuItemAction, TowerData> MenuItemClick;
+        [SerializeField] 
+        private TowerMenuItem towerMenuItemPrefab;
         
-        public void Init()
+        private List<TowerMenuItem> _items = new List<TowerMenuItem>();
+        
+        public event Action<TowerMenuItemArgs> MenuItemClick;
+
+        private void OnDestroy()
         {
             foreach (var menuItem in _items)
             {
-                menuItem.ItemClick += MenuItemOnItemClick;
+                Destroy(menuItem.gameObject);
+            }
+            _items.Clear(); 
+        }
+
+        public void AddItems(params TowerMenuItemArgs[] args)
+        {
+            foreach (var arg in args)
+            {
+                var item = Instantiate(towerMenuItemPrefab, transform);
+
+                var button = item.GetComponent<Button>();
+                
+                if(arg.IsActive)
+                    button.onClick.AddListener(()=>MenuItemOnItemClick(arg));
+
+                button.interactable = arg.IsActive;
+                    
+                item.SetData(arg);
+                _items.Add(item);
             }
         }
         
-        public void Dispose()
+        private void MenuItemOnItemClick(TowerMenuItemArgs arg)
         {
-            foreach (var menuItem in _items)
-            {
-                menuItem.ItemClick -= MenuItemOnItemClick;
-            }
-        }
-
-        private void MenuItemOnItemClick(TowerMenuItemAction actionType, TowerData towerData)
-        {
-            MenuItemClick?.Invoke(actionType, towerData);
+            MenuItemClick?.Invoke(arg);
         }
     }
 }

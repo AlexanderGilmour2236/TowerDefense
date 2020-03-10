@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b1514aff42db74392f2d6476b3ad48, type: 3}
   m_Name: MachineGun
   m_EditorClassIdentifier: 
+  Name: Machine Gun
   BuiltPrice: 200
   Range: 4
   ShootInterval: 0.5

@@ -1,21 +1,26 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Towers.Views
 {
-    public class TowerMenuItem : MonoBehaviour, IPointerClickHandler
+    public class TowerMenuItem : MonoBehaviour
     {
         [SerializeField] 
-        private TowerData _towerData;
-        [SerializeField]
-        private TowerMenuItemAction _menuItemAction;
+        private TextMeshProUGUI itemNameText;
+        [SerializeField] 
+        private TextMeshProUGUI itemPriceText;
 
-        public event Action<TowerMenuItemAction, TowerData> ItemClick;
-        
-        public void OnPointerClick(PointerEventData eventData)
+        public void SetData(TowerMenuItemArgs args)
         {
-            ItemClick?.Invoke(_menuItemAction, _towerData);
+            if (args.MenuItemAction == TowerMenuItemAction.Upgrade)
+            {
+                itemNameText.text = args.TowerData.Name;
+                itemPriceText.text = args.TowerData.BuiltPrice.ToString();
+                return;
+            }
+            itemNameText.text = args.MenuItemAction.ToString();
         }
     }
 }

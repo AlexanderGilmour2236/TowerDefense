@@ -13,6 +13,8 @@ namespace Towers.Views
         public void SetTower(TowerView towerView)
         {
             TowerView = towerView;
+            towerView.transform.SetParent(transform);
+            towerView.transform.localPosition = Vector3.zero;
         }
 
         public bool SellTower()

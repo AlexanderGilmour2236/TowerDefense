@@ -6,6 +6,7 @@ namespace Towers
     [CreateAssetMenu(fileName = "TowerData", menuName = "Tower")]
     public class TowerData : ScriptableObject
     {
+        public string Name;
         public float BuiltPrice;
         public float Range;
         public float ShootInterval;

@@ -24,5 +24,11 @@ namespace Towers
         {
             TowerSlotClick?.Invoke(towerSlot);
         }
+
+
+        public void SetTower(TowerSlotView towerSlotView, TowerData argsTowerData) => View.SetTower(towerSlotView, argsTowerData);
+
+        public void SellTower(TowerSlotView selectedTowerSlot) => View.SellTower(selectedTowerSlot);
+
     }
 }

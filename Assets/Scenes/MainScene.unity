@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.3254272, g: 0.6698113, b: 0.33731145, a: 1}
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -751,7 +751,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSystemParent: {fileID: 2122031926}
-  _canvas: {fileID: 1245663252}
+  canvas: {fileID: 1245663252}
+  towerMenuPrefab: {fileID: 8759032400633915098, guid: 3db9d59c93a1ab045b40df35f72fd67f,
+    type: 3}
+  towerDatas:
+  - {fileID: 11400000, guid: f36d7c5c0ea5b3c4197f80c7f460756c, type: 2}
+  - {fileID: 11400000, guid: 3208f8dd94e552c44b71b523452d20a4, type: 2}
+  - {fileID: 11400000, guid: dad053873b2afea4d874669b6543fcc0, type: 2}
 --- !u!4 &900327303
 Transform:
   m_ObjectHideFlags: 0
@@ -788,7 +794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &987467391
 Transform:
   m_ObjectHideFlags: 0
@@ -1184,9 +1190,9 @@ Canvas:
   m_GameObject: {fileID: 1245663249}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1538210358}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\sereb\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\sereb\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_TowerDefense.-285135198.00" t="ExcludeRecursive" />
-    <e p="D:\repositories\TowerDefense" t="IncludeRecursive">
+    <e p="C:\UnityProjects\TowerDefense" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
@@ -12,13 +10,18 @@
             <e p="ILoadablePresenter.cs" t="Include" />
             <e p="Presenter.cs" t="Include" />
             <e p="PresenterLoader.cs" t="Include" />
-            <e p="TowersSceneController.cs" t="Include" />
             <e p="View.cs" t="Include" />
             <e p="ViewablePresenter.cs" t="Include" />
+          </e>
+          <e p="Scenes" t="Include">
+            <e p="TowersScene" t="Include">
+              <e p="TowersSceneController.cs" t="Include" />
+            </e>
           </e>
           <e p="Towers" t="Include">
             <e p="TowerData.cs" t="Include" />
             <e p="TowerMenuItemAction.cs" t="Include" />
+            <e p="TowerMenuItemArgs.cs" t="Include" />
             <e p="TowerSystemPresenter.cs" t="Include" />
             <e p="Views" t="Include">
               <e p="TowerMenuItem.cs" t="Include" />
@@ -29,11 +32,44 @@
             </e>
           </e>
         </e>
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
       </e>
+      <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
-      <e p="Temp\bin" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
       <e p="TowerDefense.sln" t="IncludeFlat" />
     </e>
+    <e p="C:\Users\idbro\.Rider2018.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\idbro\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_TowerDefense.48534148.00" t="ExcludeRecursive" />
   </component>
 </project>
