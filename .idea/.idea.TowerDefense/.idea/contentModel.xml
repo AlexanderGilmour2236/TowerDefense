@@ -6,12 +6,16 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="AppInfrastructure" t="Include">
-            <e p="IInitableView.cs" t="Include" />
             <e p="ILoadablePresenter.cs" t="Include" />
             <e p="Presenter.cs" t="Include" />
             <e p="PresenterLoader.cs" t="Include" />
-            <e p="View.cs" t="Include" />
             <e p="ViewablePresenter.cs" t="Include" />
+          </e>
+          <e p="Misc" t="Include">
+            <e p="ReactiveProperty.cs" t="Include" />
+          </e>
+          <e p="Player" t="Include">
+            <e p="Player.cs" t="Include" />
           </e>
           <e p="Scenes" t="Include">
             <e p="TowersScene" t="Include">

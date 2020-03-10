@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AppInfrastructure;
 using Towers;
 using Towers.Views;
@@ -17,12 +16,18 @@ namespace Scenes.TowersScene
         private TowerMenuView towerMenuPrefab;
         [SerializeField] 
         private TowerData[] towerDatas;
+
+        [SerializeField, Range(0,100)] 
+        private int startHealth;
+        [SerializeField] 
+        private int startGold;
         
         private TowerMenuView _currentTowerMenuView;
         private PresenterLoader _presenterLoader;
         private TowerSystemPresenter _towerSystemPresenter;
         private RectTransform _canvasRectTransform;
         private TowerSlotView _selectedTowerSlot;
+        private Player.Player _player;
         
         private void Start()
         {
@@ -33,11 +38,21 @@ namespace Scenes.TowersScene
             _towerSystemPresenter.TowerSlotClick += OnTowerSlotClick;
 
             _canvasRectTransform = canvas.GetComponent<RectTransform>();
+
+            _player = new Player.Player();
+            
+            _player.Gold.ValueChanged += OnGoldValueChanged;
+            _player.Health.ValueChanged += OnHealthValueChanged;
+            
+            _player.Gold.Value = startGold;
+            _player.Health.Value = startHealth;
         }
 
         private void OnDestroy()
         {
             _towerSystemPresenter.TowerSlotClick -= OnTowerSlotClick;
+            _player.Gold.ValueChanged -= OnGoldValueChanged;
+            _player.Health.ValueChanged -= OnHealthValueChanged;
         }
         
         private void OnTowerSlotClick(TowerSlotView towerSlot)
@@ -68,7 +83,10 @@ namespace Scenes.TowersScene
 
             if (towerSlot.TowerView == null)
             {
-                _currentTowerMenuView.AddItems(towerDatas.Select(towerData => new TowerMenuItemArgs(TowerMenuItemAction.Upgrade, towerData: towerData)).ToArray());
+                _currentTowerMenuView.AddItems(towerDatas.Select(towerData => new TowerMenuItemArgs(
+                    TowerMenuItemAction.Upgrade, 
+                    _player.Gold.Value >= towerData.BuiltPrice,
+                    towerData)).ToArray());
             }
             else
             {
@@ -83,6 +101,7 @@ namespace Scenes.TowersScene
             if (args.MenuItemAction == TowerMenuItemAction.Upgrade)
             {
                 _towerSystemPresenter.SetTower(_selectedTowerSlot, args.TowerData);
+                _player.Gold.Value -= args.TowerData.BuiltPrice;
             }
             else
             {
@@ -91,6 +110,16 @@ namespace Scenes.TowersScene
             
             if (_currentTowerMenuView != null) 
                 Destroy(_currentTowerMenuView.gameObject);
+        }
+        
+        private void  OnGoldValueChanged(float gold)
+        {
+            
+        }
+        
+        private void OnHealthValueChanged(int health)
+        {
+            
         }
     }
 }
