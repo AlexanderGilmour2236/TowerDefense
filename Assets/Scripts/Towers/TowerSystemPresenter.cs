@@ -1,23 +1,23 @@
 ﻿using System;
-using AppInfrastructure;
 using Towers.Views;
+using UnityEngine;
 
 namespace Towers
 {
-    public class TowerSystemPresenter : ViewablePresenter<TowerSystemView>
+    public class TowerSystemPresenter : MonoBehaviour
     {
+        [SerializeField] 
+        private TowerSystemView view;
         public event Action<TowerSlotView> TowerSlotClick;
         
-        public override void OnPresenterLoaded()
+        public void Init()
         {
-            View.TowerSlotClick += OnTowerSlotClick;
-            base.OnPresenterLoaded();
+            view.TowerSlotClick += OnTowerSlotClick;
         }
 
-        public override void OnPresenterUnloaded()
+        private void OnDestroy()
         {
-            View.TowerSlotClick -= OnTowerSlotClick;
-            base.OnPresenterUnloaded();
+            view.TowerSlotClick -= OnTowerSlotClick;
         }
 
         private void OnTowerSlotClick(TowerSlotView towerSlot)
@@ -25,10 +25,9 @@ namespace Towers
             TowerSlotClick?.Invoke(towerSlot);
         }
 
+        public void SetTower(TowerSlotView towerSlotView, TowerData argsTowerData) => view.SetTower(towerSlotView, argsTowerData);
 
-        public void SetTower(TowerSlotView towerSlotView, TowerData argsTowerData) => View.SetTower(towerSlotView, argsTowerData);
-
-        public void SellTower(TowerSlotView selectedTowerSlot) => View.SellTower(selectedTowerSlot);
+        public void SellTower(TowerSlotView selectedTowerSlot) => view.SellTower(selectedTowerSlot);
 
     }
 }

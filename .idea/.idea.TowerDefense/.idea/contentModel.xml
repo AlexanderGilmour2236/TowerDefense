@@ -5,12 +5,6 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
-          <e p="AppInfrastructure" t="Include">
-            <e p="ILoadablePresenter.cs" t="Include" />
-            <e p="Presenter.cs" t="Include" />
-            <e p="PresenterLoader.cs" t="Include" />
-            <e p="ViewablePresenter.cs" t="Include" />
-          </e>
           <e p="Misc" t="Include">
             <e p="ReactiveProperty.cs" t="Include" />
           </e>

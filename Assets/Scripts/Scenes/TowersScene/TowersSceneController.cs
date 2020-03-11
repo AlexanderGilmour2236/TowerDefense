@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using AppInfrastructure;
 using Towers;
 using Towers.Views;
 using UnityEngine;
@@ -8,8 +7,9 @@ namespace Scenes.TowersScene
 {
     public class TowersSceneController : MonoBehaviour
     {
-        [SerializeField] 
-        private Transform towerSystemParent;
+        [Header("Towers")]
+        [SerializeField]
+        private TowerSystemPresenter towerSystemPresenter;
         [SerializeField] 
         private Canvas canvas;
         [SerializeField] 
@@ -17,25 +17,21 @@ namespace Scenes.TowersScene
         [SerializeField] 
         private TowerData[] towerDatas;
 
+        [Header("Player")]
         [SerializeField, Range(0,100)] 
         private int startHealth;
         [SerializeField] 
         private int startGold;
         
         private TowerMenuView _currentTowerMenuView;
-        private PresenterLoader _presenterLoader;
-        private TowerSystemPresenter _towerSystemPresenter;
         private RectTransform _canvasRectTransform;
         private TowerSlotView _selectedTowerSlot;
         private Player.Player _player;
         
         private void Start()
         {
-            _presenterLoader = new PresenterLoader();
-            _towerSystemPresenter = new TowerSystemPresenter();
-            
-            _presenterLoader.Load(_towerSystemPresenter, "TowerSystem", towerSystemParent);
-            _towerSystemPresenter.TowerSlotClick += OnTowerSlotClick;
+            towerSystemPresenter.Init();
+            towerSystemPresenter.TowerSlotClick += OnTowerSlotClick;
 
             _canvasRectTransform = canvas.GetComponent<RectTransform>();
 
@@ -50,7 +46,7 @@ namespace Scenes.TowersScene
 
         private void OnDestroy()
         {
-            _towerSystemPresenter.TowerSlotClick -= OnTowerSlotClick;
+            towerSystemPresenter.TowerSlotClick -= OnTowerSlotClick;
             _player.Gold.ValueChanged -= OnGoldValueChanged;
             _player.Health.ValueChanged -= OnHealthValueChanged;
         }
@@ -59,32 +55,42 @@ namespace Scenes.TowersScene
         {
             _selectedTowerSlot = towerSlot;
             
-            if (_currentTowerMenuView != null)
-            {
-                Destroy(_currentTowerMenuView.gameObject);
-                _currentTowerMenuView.MenuItemClick -= OnMenuItemClick;
-            }
+            HideTowerMenu();
+            ShowTowerMenu(towerSlot);
 
+            _currentTowerMenuView.MenuItemClick += OnMenuItemClick;
+        }
+
+        private void HideTowerMenu()
+        {
+            if (_currentTowerMenuView == null) return;
+            
+            Destroy(_currentTowerMenuView.gameObject);
+            _currentTowerMenuView.MenuItemClick -= OnMenuItemClick;
+        }
+
+        private void ShowTowerMenu(TowerSlotView towerSlot)
+        {
             _currentTowerMenuView = Instantiate(towerMenuPrefab, canvas.transform);
-            
+
             var viewportPosition = Camera.main.WorldToViewportPoint(towerSlot.transform.position);
-            
+
             var proportionalPosition = new Vector2(
                 viewportPosition.x * _canvasRectTransform.sizeDelta.x,
                 viewportPosition.y * _canvasRectTransform.sizeDelta.y
-                );
-            
+            );
+
             var uiOffset = new Vector2(
                 _canvasRectTransform.sizeDelta.x / 2f,
                 _canvasRectTransform.sizeDelta.y / 2f
-                );
-            
+            );
+
             _currentTowerMenuView.transform.localPosition = proportionalPosition - uiOffset;
 
             if (towerSlot.TowerView == null)
             {
                 _currentTowerMenuView.AddItems(towerDatas.Select(towerData => new TowerMenuItemArgs(
-                    TowerMenuItemAction.Upgrade, 
+                    TowerMenuItemAction.Upgrade,
                     _player.Gold.Value >= towerData.BuiltPrice,
                     towerData)).ToArray());
             }
@@ -92,20 +98,18 @@ namespace Scenes.TowersScene
             {
                 _currentTowerMenuView.AddItems(new TowerMenuItemArgs(TowerMenuItemAction.Sell));
             }
-            
-            _currentTowerMenuView.MenuItemClick += OnMenuItemClick;
         }
 
         private void OnMenuItemClick(TowerMenuItemArgs args)
         {
             if (args.MenuItemAction == TowerMenuItemAction.Upgrade)
             {
-                _towerSystemPresenter.SetTower(_selectedTowerSlot, args.TowerData);
+                towerSystemPresenter.SetTower(_selectedTowerSlot, args.TowerData);
                 _player.Gold.Value -= args.TowerData.BuiltPrice;
             }
             else
             {
-                _towerSystemPresenter.SellTower(_selectedTowerSlot);
+                towerSystemPresenter.SellTower(_selectedTowerSlot);
             }
             
             if (_currentTowerMenuView != null) 

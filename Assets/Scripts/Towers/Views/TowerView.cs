@@ -1,10 +1,8 @@
-﻿using AppInfrastructure;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Towers.Views
 {
     public class TowerView : MonoBehaviour
     {
-        
     }
 }

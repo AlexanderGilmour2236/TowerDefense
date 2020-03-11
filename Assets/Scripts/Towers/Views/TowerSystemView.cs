@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using AppInfrastructure;
 using UnityEngine;
 
 namespace Towers.Views
@@ -11,7 +9,6 @@ namespace Towers.Views
         [SerializeField]
         private List<TowerSlotView> towerSlotViews;
         
-        private TowerMenuView _currentTowerMenuView;
         public event Action<TowerSlotView> TowerSlotClick;
 
         public void Start()
