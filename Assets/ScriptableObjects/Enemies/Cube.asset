@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ab60974c4be664438e53a2e20528869, type: 3}
+  m_Name: Cube
+  m_EditorClassIdentifier: 
+  Health: 50
+  MovingSpeed: 30
+  Damage: 4
+  MinGold: 10
+  MaxGold: 25
+  enemyViewPrefab: {fileID: -7128585488567635688, guid: 9a876d0969eedcd4b8e9d8961feb6be1,
+    type: 3}

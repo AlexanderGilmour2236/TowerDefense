@@ -29,9 +29,9 @@ namespace Towers.Views
             towerSlotViews.Clear();
         }
 
-        public void SetTower(TowerSlotView towerSlot, TowerData data)
+        public void SetTower(TowerSlotView towerSlot, TowerView view)
         {
-            towerSlot.SetTower(Instantiate(data.towerPrefab));
+            towerSlot.SetTower(view);
         }
         
         public void SellTower(TowerSlotView towerSlot)

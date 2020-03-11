@@ -22,6 +22,10 @@ namespace Scenes.TowersScene
         private int startHealth;
         [SerializeField] 
         private int startGold;
+
+        [Header("Enemies")] 
+        [SerializeField] 
+        private EnemySystemPresenter _enemySystemPresenter;
         
         private TowerMenuView _currentTowerMenuView;
         private RectTransform _canvasRectTransform;
@@ -32,7 +36,9 @@ namespace Scenes.TowersScene
         {
             towerSystemPresenter.Init();
             towerSystemPresenter.TowerSlotClick += OnTowerSlotClick;
-
+            
+            _enemySystemPresenter.Init();
+            
             _canvasRectTransform = canvas.GetComponent<RectTransform>();
 
             _player = new Player.Player();

@@ -25,7 +25,7 @@ namespace Towers
             TowerSlotClick?.Invoke(towerSlot);
         }
 
-        public void SetTower(TowerSlotView towerSlotView, TowerData argsTowerData) => view.SetTower(towerSlotView, argsTowerData);
+        public void SetTower(TowerSlotView towerSlotView, TowerData towerData) => view.SetTower(towerSlotView, Instantiate(towerData.towerPrefab));
 
         public void SellTower(TowerSlotView selectedTowerSlot) => view.SellTower(selectedTowerSlot);
 
