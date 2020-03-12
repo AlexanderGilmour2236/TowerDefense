@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3204728219437011678}
   - component: {fileID: 3598466083782335466}
+  - component: {fileID: 4168466375542401524}
   m_Layer: 0
   m_Name: StandardTower
   m_TagString: Untagged
@@ -44,6 +45,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c7f82adc7a48a198c75ee08fe03d24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &4168466375542401524
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2464272015615134650}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 41330f2214b125e4d9ddc0374b7abd9c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7463048009509083774
 GameObject:
   m_ObjectHideFlags: 0

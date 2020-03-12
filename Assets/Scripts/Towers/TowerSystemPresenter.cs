@@ -34,6 +34,7 @@ namespace Towers
         public void SetTower(TowerSlotView towerSlotView, TowerData towerData)
         {
             var towerView = Instantiate(towerData.towerPrefab);
+            towerView.Init();
             towerView.SetData(towerData);
             Towers.Add(towerView);
             view.SetTower(towerSlotView, towerView);
@@ -41,6 +42,7 @@ namespace Towers
 
         public void LoseTarget(EnemyView enemyView)
         {
+            Debug.Log($"loseTarget {enemyView.name}");
             foreach (var tower in Towers)
             {
                 if (tower.Target == enemyView)

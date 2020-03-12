@@ -7,10 +7,16 @@ namespace Towers.Views
 {
     public class TowerView : MonoBehaviour
     {
-        private Coroutine shootingCoroutine;
-        
+        private Coroutine _shootingCoroutine;
+        private Animator _animator;
         public EnemyView Target { get; private set; }
         public TowerData TowerData { get; private set; }
+
+        public void Init()
+        {
+            _animator = GetComponent<Animator>();
+        }
+
         public void SetData(TowerData towerData)
         {
             TowerData = towerData;
@@ -20,13 +26,16 @@ namespace Towers.Views
         {
             if (Target != null)
             {
-                if (target == Target) return;
+                //if (target == Target) return;
+
+                if (_shootingCoroutine == null)
+                {
+                    Target = target;
+                    _shootingCoroutine = StartCoroutine(TowerShootingCoroutine());
+                    return;
+                }
             }
-            
             Target = target;
-            
-            if (shootingCoroutine == null)
-                shootingCoroutine = StartCoroutine(TowerShootingCoroutine());
         }
 
         private void Update()
@@ -40,18 +49,21 @@ namespace Towers.Views
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirerction), Time.time * 0.5f);
         }
 
+        private void PlayShootAnimation()
+        {
+            _animator.Play("TowerShoot");
+        }
+        
         private IEnumerator TowerShootingCoroutine()
         {
-            while (true)
+            while (Target != null)
             {
-                if (Target != null)
-                {
-                    Target.TakeDamage(TowerData.Damage);
-                }
+                Target.TakeDamage(TowerData.Damage);
+                PlayShootAnimation();
+                
                 yield return new WaitForSeconds(TowerData.ShootInterval);
-                if (Target == null) break;
             }
-            shootingCoroutine = null;
+            _shootingCoroutine = null;
         }
     }
 }
