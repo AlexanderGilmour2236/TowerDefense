@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using DG.Tweening;
 using EnemySystem.Views;
+using TMPro;
 using Towers;
 using Towers.Views;
 using UnityEngine;
@@ -29,6 +31,16 @@ namespace Scenes.TowersScene
         [Header("Enemies")] 
         [SerializeField] 
         private EnemySystemPresenter enemySystemPresenter;
+
+        [Header("UI")] 
+        [SerializeField] 
+        private TextMeshProUGUI goldsText; 
+        [SerializeField] 
+        private TextMeshProUGUI healthText;
+        [SerializeField] 
+        private TextMeshProUGUI wavesText;
+        [SerializeField] 
+        private Camera camera;
         
         private TowerSlotView _selectedTowerSlot;
         private Player.Player _player;
@@ -40,6 +52,7 @@ namespace Scenes.TowersScene
            
             enemySystemPresenter.Init();
             enemySystemPresenter.EnemyDie += OnEnemyDie;
+            enemySystemPresenter.EnemyCompletePath += OnEnemyCompletePath;
             
             _player = new Player.Player();
             
@@ -81,11 +94,26 @@ namespace Scenes.TowersScene
             _player.Gold.ValueChanged -= OnGoldValueChanged;
             _player.Health.ValueChanged -= OnHealthValueChanged;
             towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
+            enemySystemPresenter.EnemyDie -= OnEnemyDie;
+            enemySystemPresenter.EnemyCompletePath -= OnEnemyCompletePath;
         }
         
-        private void OnEnemyDie(EnemyView enemyView)
+        private void DestroyEnemy(EnemyView enemyView)
         {
             towerSystemPresenter.LoseTarget(enemyView);
+        }
+        
+        private void OnEnemyDie(EnemyView enemy)
+        {
+            _player.Gold.Value += Random.Range(enemy.EnemyData.MinGold, enemy.EnemyData.MaxGold);
+            DestroyEnemy(enemy);
+        }
+
+        private void OnEnemyCompletePath(EnemyView enemy)
+        {
+            _player.Health.Value -= enemy.EnemyData.Damage;
+            DestroyEnemy(enemy);
+            camera.transform.DOShakePosition(0.1f, 0.2f);
         }
         
         private void OnTowerSlotClick(TowerSlotView towerSlot)
@@ -112,12 +140,12 @@ namespace Scenes.TowersScene
         
         private void  OnGoldValueChanged(float gold)
         {
-            
+            goldsText.text = ((int)gold).ToString();
         }
         
         private void OnHealthValueChanged(int health)
         {
-            
+            healthText.text = health.ToString();
         }
     }
 }

@@ -22,19 +22,20 @@ public class EnemySystemPresenter : MonoBehaviour
     private PrefabPoolManager<EnemyView> _poolManager = new PrefabPoolManager<EnemyView>();
     
     public event Action<EnemyView> EnemyDie;
+    public event Action<EnemyView> EnemyCompletePath;
     
     public void Init()
     {
         StartWave();
-        enemySystemView.EnemyCompletePath += DestroyEnemy;
-        enemySystemView.EnemyDied += DestroyEnemy;
+        enemySystemView.EnemyCompletePath += OnEnemyCompletePath;
+        enemySystemView.EnemyDied += OnEnemyDie;
     }
 
     private void OnDestroy()
     {
         StopAllCoroutines();
-        enemySystemView.EnemyCompletePath -= DestroyEnemy;
-        enemySystemView.EnemyDied -= DestroyEnemy;
+        enemySystemView.EnemyCompletePath -= OnEnemyCompletePath;
+        enemySystemView.EnemyDied -= OnEnemyDie;
         _poolManager.Clear();
         _poolManager = null;
     }
@@ -58,6 +59,17 @@ public class EnemySystemPresenter : MonoBehaviour
     {
         Enemies.Remove(enemy);
         _poolManager.GetPool(enemy.EnemyData.enemyViewPrefab).ReleaseObject(enemy);
+    }
+
+    private void OnEnemyCompletePath(EnemyView enemy)
+    {
+        DestroyEnemy(enemy);
+        EnemyCompletePath?.Invoke(enemy);
+    }
+    
+    private void OnEnemyDie(EnemyView enemy)
+    {
+        DestroyEnemy(enemy);
         EnemyDie?.Invoke(enemy);
     }
 

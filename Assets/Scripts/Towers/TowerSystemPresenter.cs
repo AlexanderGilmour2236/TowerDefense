@@ -42,7 +42,6 @@ namespace Towers
 
         public void LoseTarget(EnemyView enemyView)
         {
-            Debug.Log($"loseTarget {enemyView.name}");
             foreach (var tower in Towers)
             {
                 if (tower.Target == enemyView)
