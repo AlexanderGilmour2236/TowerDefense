@@ -816,7 +816,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dad053873b2afea4d874669b6543fcc0, type: 2}
   _towerMenuPresenter: {fileID: 168617899}
   startHealth: 100
-  startGold: 250
+  startGold: 1000
   _enemySystemPresenter: {fileID: 1489383399}
 --- !u!4 &900327303
 Transform:

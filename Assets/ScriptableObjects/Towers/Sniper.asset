@@ -18,5 +18,5 @@ MonoBehaviour:
   ShootInterval: 6
   Damage: 150
   SellMultiplier: 0.5
-  towerPrefab: {fileID: 3598466083782335466, guid: 2acf99a59286a604a9b3af0dcfe095f9,
+  towerPrefab: {fileID: 3598466083782335466, guid: b0f956522cc0e4548a72731a5d035337,
     type: 3}
