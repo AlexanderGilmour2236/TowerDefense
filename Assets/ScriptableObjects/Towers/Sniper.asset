@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Sniper
   BuiltPrice: 500
-  Range: 10
-  ShootInterval: 6
-  Damage: 150
+  Range: 30
+  ShootInterval: 3
+  Damage: 100
   SellMultiplier: 0.5
   towerPrefab: {fileID: 3598466083782335466, guid: b0f956522cc0e4548a72731a5d035337,
     type: 3}

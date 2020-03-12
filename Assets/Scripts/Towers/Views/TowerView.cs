@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using EnemySystem.Views;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Towers.Views
 {
     public class TowerView : MonoBehaviour
     {
+        private Coroutine shootingCoroutine;
+        
         public EnemyView Target { get; private set; }
         public TowerData TowerData { get; private set; }
         public void SetData(TowerData towerData)
@@ -18,15 +21,12 @@ namespace Towers.Views
             if (Target != null)
             {
                 if (target == Target) return;
-                StopAllCoroutines();
             }
-
-//            target.GetComponent<MeshRenderer>().material.color = Color.red;
-//            if(_target!=null)
-//                _target.GetComponent<MeshRenderer>().material.color = Color.white;
             
             Target = target;
-            StartCoroutine(TowerShootingCoroutine());
+            
+            if (shootingCoroutine == null)
+                shootingCoroutine = StartCoroutine(TowerShootingCoroutine());
         }
 
         private void Update()
@@ -37,7 +37,6 @@ namespace Towers.Views
             }
 
             var targetDirerction = Target.transform.position - transform.position;
-            //targetDirerction.y = 0.0f;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirerction), Time.time * 0.5f);
         }
 
@@ -45,13 +44,14 @@ namespace Towers.Views
         {
             while (true)
             {
-                if (Target == null)
+                if (Target != null)
                 {
-                    yield break;
+                    Target.TakeDamage(TowerData.Damage);
                 }
-                Target.TakeDamage(TowerData.Damage);
                 yield return new WaitForSeconds(TowerData.ShootInterval);
+                if (Target == null) break;
             }
+            shootingCoroutine = null;
         }
     }
 }

@@ -54,7 +54,6 @@ namespace Towers
         {
             Towers.Remove(towerSlot.TowerView);
             view.SellTower(towerSlot);
-            Debug.Log(Towers.Count);
         }
     }
 }

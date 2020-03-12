@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8918314098783976897}
   - component: {fileID: 8511397536229974978}
   - component: {fileID: -7128585488567635688}
-  - component: {fileID: 1582860732057587737}
+  - component: {fileID: 1906021550401179944}
   m_Layer: 0
   m_Name: SphereEnemy
   m_TagString: Untagged
@@ -93,16 +93,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3598aaa503a149a5a17d06ae88814b56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &1582860732057587737
-SphereCollider:
+--- !u!95 &1906021550401179944
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7051219730082516789}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 67c0c67c0f82f4643bb521676e4f4883, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

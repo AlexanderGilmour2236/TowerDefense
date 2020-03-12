@@ -71,11 +71,7 @@ namespace Scenes.TowersScene
                         targetEnemyView = enemy;
                     }
                 }
-
-                if (targetEnemyView != null)
-                {
-                    tower.SetTarget(targetEnemyView);
-                }
+                tower.SetTarget(targetEnemyView);
             }
         }
 
