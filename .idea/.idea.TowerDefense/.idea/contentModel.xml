@@ -46,6 +46,7 @@
             <e p="TowerData.cs" t="Include" />
             <e p="TowerMenuItemAction.cs" t="Include" />
             <e p="TowerMenuItemArgs.cs" t="Include" />
+            <e p="TowerMenuPresenter.cs" t="Include" />
             <e p="TowerSystemPresenter.cs" t="Include" />
             <e p="Views" t="Include">
               <e p="TowerMenuItem.cs" t="Include" />

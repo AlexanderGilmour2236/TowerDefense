@@ -13,10 +13,10 @@ namespace Scenes.TowersScene
         [SerializeField] 
         private Canvas canvas;
         [SerializeField] 
-        private TowerMenuView towerMenuPrefab;
-        [SerializeField] 
         private TowerData[] towerDatas;
-
+        [SerializeField] 
+        private TowerMenuPresenter _towerMenuPresenter;
+        
         [Header("Player")]
         [SerializeField, Range(0,100)] 
         private int startHealth;
@@ -27,8 +27,6 @@ namespace Scenes.TowersScene
         [SerializeField] 
         private EnemySystemPresenter _enemySystemPresenter;
         
-        private TowerMenuView _currentTowerMenuView;
-        private RectTransform _canvasRectTransform;
         private TowerSlotView _selectedTowerSlot;
         private Player.Player _player;
         
@@ -36,10 +34,8 @@ namespace Scenes.TowersScene
         {
             towerSystemPresenter.Init();
             towerSystemPresenter.TowerSlotClick += OnTowerSlotClick;
-            
+           
             _enemySystemPresenter.Init();
-            
-            _canvasRectTransform = canvas.GetComponent<RectTransform>();
 
             _player = new Player.Player();
             
@@ -48,6 +44,9 @@ namespace Scenes.TowersScene
             
             _player.Gold.Value = startGold;
             _player.Health.Value = startHealth;
+            
+            _towerMenuPresenter.Init(_player, towerDatas);
+            _towerMenuPresenter.MenuItemClick += OnMenuItemClick;
         }
 
         private void OnDestroy()
@@ -55,55 +54,15 @@ namespace Scenes.TowersScene
             towerSystemPresenter.TowerSlotClick -= OnTowerSlotClick;
             _player.Gold.ValueChanged -= OnGoldValueChanged;
             _player.Health.ValueChanged -= OnHealthValueChanged;
+            _towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
         }
         
         private void OnTowerSlotClick(TowerSlotView towerSlot)
         {
             _selectedTowerSlot = towerSlot;
             
-            HideTowerMenu();
-            ShowTowerMenu(towerSlot);
-
-            _currentTowerMenuView.MenuItemClick += OnMenuItemClick;
-        }
-
-        private void HideTowerMenu()
-        {
-            if (_currentTowerMenuView == null) return;
-            
-            Destroy(_currentTowerMenuView.gameObject);
-            _currentTowerMenuView.MenuItemClick -= OnMenuItemClick;
-        }
-
-        private void ShowTowerMenu(TowerSlotView towerSlot)
-        {
-            _currentTowerMenuView = Instantiate(towerMenuPrefab, canvas.transform);
-
-            var viewportPosition = Camera.main.WorldToViewportPoint(towerSlot.transform.position);
-
-            var proportionalPosition = new Vector2(
-                viewportPosition.x * _canvasRectTransform.sizeDelta.x,
-                viewportPosition.y * _canvasRectTransform.sizeDelta.y
-            );
-
-            var uiOffset = new Vector2(
-                _canvasRectTransform.sizeDelta.x / 2f,
-                _canvasRectTransform.sizeDelta.y / 2f
-            );
-
-            _currentTowerMenuView.transform.localPosition = proportionalPosition - uiOffset;
-
-            if (towerSlot.TowerView == null)
-            {
-                _currentTowerMenuView.AddItems(towerDatas.Select(towerData => new TowerMenuItemArgs(
-                    TowerMenuItemAction.Upgrade,
-                    _player.Gold.Value >= towerData.BuiltPrice,
-                    towerData)).ToArray());
-            }
-            else
-            {
-                _currentTowerMenuView.AddItems(new TowerMenuItemArgs(TowerMenuItemAction.Sell));
-            }
+            _towerMenuPresenter.HideTowerMenu();
+            _towerMenuPresenter.ShowTowerMenu(towerSlot);
         }
 
         private void OnMenuItemClick(TowerMenuItemArgs args)
@@ -116,10 +75,8 @@ namespace Scenes.TowersScene
             else
             {
                 towerSystemPresenter.SellTower(_selectedTowerSlot);
+                _player.Gold.Value += args.TowerData.BuiltPrice * args.TowerData.SellMultiplier;
             }
-            
-            if (_currentTowerMenuView != null) 
-                Destroy(_currentTowerMenuView.gameObject);
         }
         
         private void  OnGoldValueChanged(float gold)

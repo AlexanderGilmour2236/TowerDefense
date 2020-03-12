@@ -14,13 +14,11 @@ namespace Towers.Views
 
         public void SetData(TowerMenuItemArgs args)
         {
-            if (args.MenuItemAction == TowerMenuItemAction.Upgrade)
-            {
-                itemNameText.text = args.TowerData.Name;
-                itemPriceText.text = args.TowerData.BuiltPrice.ToString();
-                return;
-            }
-            itemNameText.text = args.MenuItemAction.ToString();
+            itemNameText.text = args.MenuItemAction == TowerMenuItemAction.Upgrade ? 
+                args.TowerData.Name : args.MenuItemAction.ToString();
+            
+            itemPriceText.text = args.MenuItemAction == TowerMenuItemAction.Upgrade ? 
+                args.TowerData.BuiltPrice.ToString() : (args.TowerData.BuiltPrice * args.TowerData.SellMultiplier).ToString();
         }
     }
 }

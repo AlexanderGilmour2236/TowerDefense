@@ -45,5 +45,22 @@ namespace Towers.Views
         {
             MenuItemClick?.Invoke(arg);
         }
+        
+        public void ShowMenu(TowerSlotView towerSlot, TowerMenuView towerMenuView, RectTransform canvasRectTransform)
+        {
+            var viewportPosition = Camera.main.WorldToViewportPoint(towerSlot.transform.position);
+
+            var proportionalPosition = new Vector2(
+                viewportPosition.x * canvasRectTransform.sizeDelta.x,
+                viewportPosition.y * canvasRectTransform.sizeDelta.y
+            );
+
+            var uiOffset = new Vector2(
+                canvasRectTransform.sizeDelta.x / 2f,
+                canvasRectTransform.sizeDelta.y / 2f
+            );
+
+            towerMenuView.transform.localPosition = proportionalPosition - uiOffset;
+        }
     }
 }

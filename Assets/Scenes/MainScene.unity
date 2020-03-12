@@ -307,6 +307,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 127030422}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &168617897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 168617898}
+  - component: {fileID: 168617899}
+  m_Layer: 0
+  m_Name: TowerMenuPresenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &168617898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168617897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1709667238}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &168617899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168617897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e069f2f5e046fdb9691509133a09c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerMenuPrefab: {fileID: 8759032400633915098, guid: 3db9d59c93a1ab045b40df35f72fd67f,
+    type: 3}
+  canvasRectTransform: {fileID: 1245663253}
 --- !u!1 &211295897
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,12 +810,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerSystemPresenter: {fileID: 2122031927}
   canvas: {fileID: 1245663252}
-  towerMenuPrefab: {fileID: 8759032400633915098, guid: 3db9d59c93a1ab045b40df35f72fd67f,
-    type: 3}
   towerDatas:
   - {fileID: 11400000, guid: f36d7c5c0ea5b3c4197f80c7f460756c, type: 2}
   - {fileID: 11400000, guid: 3208f8dd94e552c44b71b523452d20a4, type: 2}
   - {fileID: 11400000, guid: dad053873b2afea4d874669b6543fcc0, type: 2}
+  _towerMenuPresenter: {fileID: 168617899}
   startHealth: 100
   startGold: 250
   _enemySystemPresenter: {fileID: 1489383399}
@@ -2185,6 +2230,7 @@ Transform:
   m_Children:
   - {fileID: 2122031926}
   - {fileID: 1489383398}
+  - {fileID: 168617898}
   m_Father: {fileID: 900327303}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

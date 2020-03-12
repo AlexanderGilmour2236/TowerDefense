@@ -8,7 +8,7 @@ namespace Towers
         public TowerMenuItemAction MenuItemAction { get; }
         public bool IsActive { get; }
         
-        public TowerMenuItemArgs(TowerMenuItemAction menuItemAction, bool isActive = true, TowerData towerData = null)
+        public TowerMenuItemArgs(TowerMenuItemAction menuItemAction, TowerData towerData, bool isActive = true)
         {
             MenuItemAction = menuItemAction;
             TowerData = towerData;

@@ -11,6 +11,7 @@ namespace Towers
         public float Range;
         public float ShootInterval;
         public float Damage;
+        public float SellMultiplier;
         public TowerView towerPrefab;
     }
 }
