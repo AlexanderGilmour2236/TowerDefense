@@ -41,6 +41,8 @@ namespace Scenes.TowersScene
         private TextMeshProUGUI wavesText;
         [SerializeField] 
         private Camera camera;
+        [SerializeField]
+        private GameOverScreenView gameOverScreenView;
         
         private TowerSlotView _selectedTowerSlot;
         private Player.Player _player;
@@ -64,6 +66,10 @@ namespace Scenes.TowersScene
             
             towerMenuPresenter.Init(_player, towerDatas);
             towerMenuPresenter.MenuItemClick += OnMenuItemClick;
+            
+            gameOverScreenView.ButtonClick += StartGame;
+            
+            StartGame();
         }
 
         private void Update()
@@ -96,9 +102,18 @@ namespace Scenes.TowersScene
             towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
             enemySystemPresenter.EnemyDie -= OnEnemyDie;
             enemySystemPresenter.EnemyCompletePath -= OnEnemyCompletePath;
+            gameOverScreenView.ButtonClick -= StartGame;
+        }
+
+        private void StartGame()
+        {
+            gameOverScreenView.gameObject.SetActive(false);
+            _player.Gold.Value = startGold;
+            _player.Health.Value = startHealth;
+            enemySystemPresenter.StartWave();
         }
         
-        private void DestroyEnemy(EnemyView enemyView)
+        private void LoseEnemyTarget(EnemyView enemyView)
         {
             towerSystemPresenter.LoseTarget(enemyView);
         }
@@ -106,16 +121,20 @@ namespace Scenes.TowersScene
         private void OnEnemyDie(EnemyView enemy)
         {
             _player.Gold.Value += Random.Range(enemy.EnemyData.MinGold, enemy.EnemyData.MaxGold);
-            DestroyEnemy(enemy);
+            LoseEnemyTarget(enemy);
         }
 
         private void OnEnemyCompletePath(EnemyView enemy)
         {
             _player.Health.Value -= enemy.EnemyData.Damage;
-            DestroyEnemy(enemy);
+            if (_player.Health.Value <= 0)
+            {
+                GameOver(false);
+            }
+            LoseEnemyTarget(enemy);
             camera.transform.DOShakePosition(0.1f, 0.2f);
         }
-        
+
         private void OnTowerSlotClick(TowerSlotView towerSlot)
         {
             _selectedTowerSlot = towerSlot;
@@ -138,7 +157,24 @@ namespace Scenes.TowersScene
             }
         }
         
-        private void  OnGoldValueChanged(float gold)
+        private void GameOver(bool isWin)
+        {
+            towerMenuPresenter.HideTowerMenu();
+            towerSystemPresenter.ClearTowers();
+            gameOverScreenView.gameObject.SetActive(true);
+            gameOverScreenView.SetText(isWin ? "YOU WON" : "GAME OVER");
+            gameOverScreenView.SetButtonText("RESTART");
+            
+            foreach (var enemy in enemySystemPresenter.Enemies)
+            {
+                LoseEnemyTarget(enemy);
+            }
+            enemySystemPresenter.ClearEnemies();
+            
+            
+        }
+        
+        private void OnGoldValueChanged(float gold)
         {
             goldsText.text = ((int)gold).ToString();
         }

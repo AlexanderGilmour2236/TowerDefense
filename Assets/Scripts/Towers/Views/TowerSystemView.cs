@@ -36,12 +36,20 @@ namespace Towers.Views
         
         public void SellTower(TowerSlotView towerSlot)
         {
-            towerSlot.SellTower();
+            SetTower(towerSlot, null);
         }
         
         private void OnTowerSlotClick(TowerSlotView towerSlot)
         {
             TowerSlotClick?.Invoke(towerSlot);
+        }
+
+        public void ClearSlots()
+        {
+            foreach (var slotView in towerSlotViews)
+            {
+                SellTower(slotView);
+            }
         }
     }
 }

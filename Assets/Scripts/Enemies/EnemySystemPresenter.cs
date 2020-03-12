@@ -16,17 +16,17 @@ public class EnemySystemPresenter : MonoBehaviour
     public List<EnemyView> Enemies { get; } = new List<EnemyView>();
     public float CompletePathPercent(EnemyView view) => enemySystemView.CompletePathPercent(view);
     
-    private const float spawnEachSeconds = 1f;
+    private const float spawnEachSeconds = 0.2f;
     private const float durationSeconds = 10;
 
     private PrefabPoolManager<EnemyView> _poolManager = new PrefabPoolManager<EnemyView>();
-    
+    private Coroutine _spawnCoroutine;
+
     public event Action<EnemyView> EnemyDie;
     public event Action<EnemyView> EnemyCompletePath;
     
     public void Init()
     {
-        StartWave();
         enemySystemView.EnemyCompletePath += OnEnemyCompletePath;
         enemySystemView.EnemyDied += OnEnemyDie;
     }
@@ -42,7 +42,7 @@ public class EnemySystemPresenter : MonoBehaviour
 
     public void StartWave()
     {
-        StartCoroutine(SpawnCoroutine(durationSeconds, spawnEachSeconds));
+        _spawnCoroutine = StartCoroutine(SpawnCoroutine(durationSeconds, spawnEachSeconds));
     }
 
     private void SpawnEnemy(EnemyData enemyData)
@@ -57,10 +57,25 @@ public class EnemySystemPresenter : MonoBehaviour
     
     private void DestroyEnemy(EnemyView enemy)
     {
+        enemySystemView.StopEnemy(enemy);
         Enemies.Remove(enemy);
         _poolManager.GetPool(enemy.EnemyData.enemyViewPrefab).ReleaseObject(enemy);
     }
 
+    public void ClearEnemies()
+    {
+        StopCoroutine(_spawnCoroutine);
+        
+        var count = Enemies.Count;
+        for (var i = 0; i < count; i++)
+        {
+            DestroyEnemy(Enemies[0]);
+        }
+        
+        Enemies.Clear();
+        _poolManager.Clear();
+    }
+    
     private void OnEnemyCompletePath(EnemyView enemy)
     {
         DestroyEnemy(enemy);

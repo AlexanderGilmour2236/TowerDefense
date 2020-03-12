@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EnemySystem.Views;
+using Misc;
 using Towers.Views;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Towers
         [SerializeField] 
         private TowerSystemView view;
 
+        private PrefabPoolManager<TowerView> _towersPoolManager = new PrefabPoolManager<TowerView>();
         public List<TowerView> Towers { get; } = new List<TowerView>();
         
         public event Action<TowerSlotView> TowerSlotClick;
@@ -33,7 +35,9 @@ namespace Towers
 
         public void SetTower(TowerSlotView towerSlotView, TowerData towerData)
         {
-            var towerView = Instantiate(towerData.towerPrefab);
+            var towerPool = _towersPoolManager.GetPool(towerData.towerPrefab) ?? _towersPoolManager.CreatePool(view.transform, towerData.towerPrefab);
+            
+            var towerView =  towerPool.GetObject();
             towerView.Init();
             towerView.SetData(towerData);
             Towers.Add(towerView);
@@ -42,17 +46,26 @@ namespace Towers
 
         public void LoseTarget(EnemyView enemyView)
         {
+            foreach (var tower in Towers.Where(tower => tower.Target == enemyView))
+            {
+                tower.SetTarget(null);
+            }
+        }
+
+        public void ClearTowers()
+        {
             foreach (var tower in Towers)
             {
-                if (tower.Target == enemyView)
-                {
-                    tower.SetTarget(null);
-                }
+                tower.SetTarget(null);
+                _towersPoolManager.GetPool(tower.TowerData.towerPrefab).ReleaseObject(tower);
+                view.ClearSlots();
             }
+            Towers.Clear();
         }
 
         public void SellTower(TowerSlotView towerSlot)
         {
+            _towersPoolManager.GetPool(towerSlot.TowerView.TowerData.towerPrefab).ReleaseObject(towerSlot.TowerView);
             Towers.Remove(towerSlot.TowerView);
             view.SellTower(towerSlot);
         }

@@ -13,16 +13,10 @@ namespace Towers.Views
         public void SetTower(TowerView towerView)
         {
             TowerView = towerView;
+            if (towerView == null) return;
+            
             towerView.transform.SetParent(transform);
             towerView.transform.localPosition = Vector3.zero;
-        }
-
-        public void SellTower()
-        {
-            if (TowerView == null) return;
-            
-            Destroy(TowerView.gameObject);
-            TowerView = null;
         }
 
         public void OnPointerClick(PointerEventData eventData)

@@ -45,16 +45,23 @@ namespace EnemySystem.Views
                 }));
         }
 
-        private void OnEnemyDie(EnemyView enemyView)
+        public void StopEnemy(EnemyView enemyView)
         {
-            enemyView.EnemyDie -= OnEnemyDie;
-
+            if (!EnemyTweens.ContainsKey(enemyView)) return;
+            
             var tween = EnemyTweens[enemyView];
             tween.Kill();
             EnemyTweens.Remove(enemyView);
-            EnemyDied?.Invoke(enemyView);
         }
         
+        private void OnEnemyDie(EnemyView enemyView)
+        {
+            enemyView.EnemyDie -= OnEnemyDie;
+            StopEnemy(enemyView);
+
+            EnemyDied?.Invoke(enemyView);
+        }
+
         public void SetPath(EnemyPath enemyPath)
         {
             this.enemyPath = enemyPath;

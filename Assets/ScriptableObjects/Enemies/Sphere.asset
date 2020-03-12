@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 50
   MovingSpeed: 7
-  Damage: 5
+  Damage: 50
   MinGold: 5
   MaxGold: 10
   enemyViewPrefab: {fileID: -7128585488567635688, guid: 7f38822556364de488f2638196059bd5,

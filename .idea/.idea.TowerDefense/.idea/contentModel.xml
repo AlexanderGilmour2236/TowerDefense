@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\UnityProjects\TowerDefense" t="IncludeRecursive">
+    <e p="C:\Users\sereb\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\sereb\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_TowerDefense.-285135198.00" t="ExcludeRecursive" />
+    <e p="D:\repositories\TowerDefense" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Demigiant" t="Include">
@@ -28,6 +30,9 @@
               <e p="EnemySystemView.cs" t="Include" />
               <e p="EnemyView.cs" t="Include" />
             </e>
+          </e>
+          <e p="GameOver" t="Include">
+            <e p="GameOverScreenView.cs" t="Include" />
           </e>
           <e p="Misc" t="Include">
             <e p="MonoPool.cs" t="Include" />
@@ -86,15 +91,10 @@
           </e>
         </e>
       </e>
-      <e p="Library" t="ExcludeRecursive" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
-      <e p="Temp" t="ExcludeRecursive">
-        <e p="bin" t="ExcludeRecursive" />
-      </e>
+      <e p="Temp\bin" t="ExcludeRecursive" />
       <e p="TowerDefense.sln" t="IncludeFlat" />
     </e>
-    <e p="C:\Users\idbro\.Rider2018.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\idbro\.Rider2018.3\system\resharper-host\local\Transient\ReSharperHost\v183\SolutionCaches\_TowerDefense.48534148.00" t="ExcludeRecursive" />
   </component>
 </project>
