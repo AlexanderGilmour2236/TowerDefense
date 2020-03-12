@@ -39,7 +39,8 @@ namespace Scenes.TowersScene
             towerSystemPresenter.TowerSlotClick += OnTowerSlotClick;
            
             enemySystemPresenter.Init();
-
+            enemySystemPresenter.EnemyDie += OnEnemyDie;
+            
             _player = new Player.Player();
             
             _player.Gold.ValueChanged += OnGoldValueChanged;
@@ -73,7 +74,7 @@ namespace Scenes.TowersScene
 
                 if (targetEnemyView != null)
                 {
-                    tower.SetTarget(targetEnemyView.transform);
+                    tower.SetTarget(targetEnemyView);
                 }
             }
         }
@@ -84,6 +85,11 @@ namespace Scenes.TowersScene
             _player.Gold.ValueChanged -= OnGoldValueChanged;
             _player.Health.ValueChanged -= OnHealthValueChanged;
             towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
+        }
+        
+        private void OnEnemyDie(EnemyView enemyView)
+        {
+            towerSystemPresenter.LoseTarget(enemyView);
         }
         
         private void OnTowerSlotClick(TowerSlotView towerSlot)

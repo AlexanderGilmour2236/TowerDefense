@@ -62,6 +62,7 @@ namespace Towers
 
         private void OnDestroy()
         {
+            if(_currentTowerMenuView!=null)
             _currentTowerMenuView.MenuItemClick -= OnMenuItemClick;
         }
     }

@@ -17,14 +17,12 @@ namespace Towers.Views
             towerView.transform.localPosition = Vector3.zero;
         }
 
-        public bool SellTower()
+        public void SellTower()
         {
-            if (TowerView == null) return false;
+            if (TowerView == null) return;
             
             Destroy(TowerView.gameObject);
             TowerView = null;
-            return true;
-
         }
 
         public void OnPointerClick(PointerEventData eventData)

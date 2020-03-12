@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab60974c4be664438e53a2e20528869, type: 3}
   m_Name: Cube
   m_EditorClassIdentifier: 
-  Health: 50
+  Health: 100
   MovingSpeed: 5
-  Damage: 4
+  Damage: 10
   MinGold: 10
   MaxGold: 25
   enemyViewPrefab: {fileID: -7128585488567635688, guid: 9a876d0969eedcd4b8e9d8961feb6be1,

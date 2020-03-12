@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab60974c4be664438e53a2e20528869, type: 3}
   m_Name: Cilinder
   m_EditorClassIdentifier: 
-  Health: 100
+  Health: 250
   MovingSpeed: 3
-  Damage: 4
+  Damage: 20
   MinGold: 25
   MaxGold: 35
   enemyViewPrefab: {fileID: -7128585488567635688, guid: aea1a1e2a72366b42962b9303a50f42f,

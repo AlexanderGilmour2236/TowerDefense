@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Machine Gun
   BuiltPrice: 200
-  Range: 4
-  ShootInterval: 0.5
+  Range: 5
+  ShootInterval: 0.1
   Damage: 5
   SellMultiplier: 0.5
   towerPrefab: {fileID: 3598466083782335466, guid: 1beb6495944c43d41a819d0db4d8bf1f,

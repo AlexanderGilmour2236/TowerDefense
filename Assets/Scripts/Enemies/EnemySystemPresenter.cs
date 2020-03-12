@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using EnemySystem.Views;
 using Misc;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemySystemPresenter : MonoBehaviour
 {
@@ -14,21 +16,25 @@ public class EnemySystemPresenter : MonoBehaviour
     public List<EnemyView> Enemies { get; } = new List<EnemyView>();
     public float CompletePathPercent(EnemyView view) => enemySystemView.CompletePathPercent(view);
     
-    private const float spawnEachSeconds = 0.5f;
-    private const int durationSeconds = 10;
+    private const float spawnEachSeconds = 1f;
+    private const float durationSeconds = 10;
 
     private PrefabPoolManager<EnemyView> _poolManager = new PrefabPoolManager<EnemyView>();
+    
+    public event Action<EnemyView> EnemyDie;
     
     public void Init()
     {
         StartWave();
-        enemySystemView.EnemyCompletePath += OnEnemyCompletePath;
+        enemySystemView.EnemyCompletePath += DestroyEnemy;
+        enemySystemView.EnemyDied += DestroyEnemy;
     }
-    
+
     private void OnDestroy()
     {
         StopAllCoroutines();
-        enemySystemView.EnemyCompletePath -= OnEnemyCompletePath;
+        enemySystemView.EnemyCompletePath -= DestroyEnemy;
+        enemySystemView.EnemyDied -= DestroyEnemy;
         _poolManager.Clear();
         _poolManager = null;
     }
@@ -45,22 +51,23 @@ public class EnemySystemPresenter : MonoBehaviour
         var newEnemy = enemyPool.GetObject();
         newEnemy.SetData(enemyData);
         Enemies.Add(newEnemy);
-        enemySystemView.StartEnemy(newEnemy, enemyData.MovingSpeed);
+        enemySystemView.StartEnemy(newEnemy);
     }
     
-    private void OnEnemyCompletePath(EnemyView enemy)
+    private void DestroyEnemy(EnemyView enemy)
     {
         Enemies.Remove(enemy);
         _poolManager.GetPool(enemy.EnemyData.enemyViewPrefab).ReleaseObject(enemy);
+        EnemyDie?.Invoke(enemy);
     }
 
-    private IEnumerator SpawnCoroutine(int duration, float spawnInterval)
+    private IEnumerator SpawnCoroutine(float duration, float spawnInterval)
     {
         var timeLeft = duration;
         while (timeLeft > 0)
         {
             yield return new WaitForSeconds(spawnInterval);
-            timeLeft--;
+            timeLeft -= spawnInterval;
             SpawnEnemy(enemyDatas[Random.Range(0,enemyDatas.Length)]);
         }
     }

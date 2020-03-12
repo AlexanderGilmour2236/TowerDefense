@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ab60974c4be664438e53a2e20528869, type: 3}
   m_Name: Sphere
   m_EditorClassIdentifier: 
-  Health: 20
+  Health: 50
   MovingSpeed: 7
-  Damage: 2
+  Damage: 5
   MinGold: 5
   MaxGold: 10
   enemyViewPrefab: {fileID: -7128585488567635688, guid: 7f38822556364de488f2638196059bd5,

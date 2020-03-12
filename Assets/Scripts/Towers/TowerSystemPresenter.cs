@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EnemySystem.Views;
 using Towers.Views;
 using UnityEngine;
 
@@ -38,10 +39,22 @@ namespace Towers
             view.SetTower(towerSlotView, towerView);
         }
 
-        public void SellTower(TowerSlotView selectedTowerSlot)
+        public void LoseTarget(EnemyView enemyView)
         {
-            view.SellTower(selectedTowerSlot);
-            Towers.Remove(selectedTowerSlot.TowerView);
+            foreach (var tower in Towers)
+            {
+                if (tower.Target == enemyView)
+                {
+                    tower.SetTarget(null);
+                }
+            }
+        }
+
+        public void SellTower(TowerSlotView towerSlot)
+        {
+            Towers.Remove(towerSlot.TowerView);
+            view.SellTower(towerSlot);
+            Debug.Log(Towers.Count);
         }
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Standard
   BuiltPrice: 100
   Range: 10
-  ShootInterval: 10
+  ShootInterval: 1
   Damage: 30
   SellMultiplier: 0.5
   towerPrefab: {fileID: 3598466083782335466, guid: 2acf99a59286a604a9b3af0dcfe095f9,
