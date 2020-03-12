@@ -13,11 +13,12 @@ namespace EnemySystem.Views
         [SerializeField]
         private Transform enemyParent;
         
-        private List<EnemyView> _enemies = new List<EnemyView>();
         private Vector3[] _enemyPathPoints;
         
+        public Dictionary<EnemyView, Tweener> EnemyTweens { get; } = new Dictionary<EnemyView, Tweener>();
         public Transform EnemyParent => enemyParent;
-
+        public float CompletePathPercent(EnemyView view) => EnemyTweens[view]?.ElapsedPercentage() ?? 0;
+        
         public event Action<EnemyView> EnemyCompletePath;
 
         private void Start()
@@ -27,14 +28,18 @@ namespace EnemySystem.Views
 
         public void StartEnemy(EnemyView newEnemyView, float movingSpeed)
         {
-            _enemies.Add(newEnemyView);
             newEnemyView.transform.position = enemyPath.Points[0].position;
             
-            newEnemyView.transform.DOPath(_enemyPathPoints, movingSpeed).SetEase(Ease.Linear).SetSpeedBased(true).OnKill(
+            EnemyTweens.Add(newEnemyView,newEnemyView.transform.DOPath(_enemyPathPoints, movingSpeed)
+                .SetEase(Ease.Linear)
+                .SetSpeedBased(true)
+                .SetLookAt(0)
+                .OnKill(
                 () =>
                 {
                     EnemyCompletePath?.Invoke(newEnemyView);
-                });
+                    EnemyTweens.Remove(newEnemyView);
+                }));
         }
 
         public void SetPath(EnemyPath enemyPath)

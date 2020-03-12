@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 namespace Towers.Views
@@ -8,8 +9,6 @@ namespace Towers.Views
     {
         [SerializeField]
         private List<TowerSlotView> towerSlotViews;
-
-        private List<TowerView> _towerViews = new List<TowerView>();
         
         public event Action<TowerSlotView> TowerSlotClick;
 
@@ -34,12 +33,10 @@ namespace Towers.Views
         public void SetTower(TowerSlotView towerSlot, TowerView view)
         {
             towerSlot.SetTower(view);
-            _towerViews.Add(view);
         }
         
         public void SellTower(TowerSlotView towerSlot)
         {
-            _towerViews.Remove(towerSlot.TowerView);
             towerSlot.SellTower();
         }
         

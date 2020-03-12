@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EnemySystem.Views;
 using Towers;
 using Towers.Views;
 using UnityEngine;
@@ -15,17 +16,19 @@ namespace Scenes.TowersScene
         [SerializeField] 
         private TowerData[] towerDatas;
         [SerializeField] 
-        private TowerMenuPresenter _towerMenuPresenter;
+        private TowerMenuPresenter towerMenuPresenter;
         
         [Header("Player")]
         [SerializeField, Range(0,100)] 
         private int startHealth;
         [SerializeField] 
         private int startGold;
+        [SerializeField] 
+        private Transform playerCastle;
 
         [Header("Enemies")] 
         [SerializeField] 
-        private EnemySystemPresenter _enemySystemPresenter;
+        private EnemySystemPresenter enemySystemPresenter;
         
         private TowerSlotView _selectedTowerSlot;
         private Player.Player _player;
@@ -35,7 +38,7 @@ namespace Scenes.TowersScene
             towerSystemPresenter.Init();
             towerSystemPresenter.TowerSlotClick += OnTowerSlotClick;
            
-            _enemySystemPresenter.Init();
+            enemySystemPresenter.Init();
 
             _player = new Player.Player();
             
@@ -45,8 +48,34 @@ namespace Scenes.TowersScene
             _player.Gold.Value = startGold;
             _player.Health.Value = startHealth;
             
-            _towerMenuPresenter.Init(_player, towerDatas);
-            _towerMenuPresenter.MenuItemClick += OnMenuItemClick;
+            towerMenuPresenter.Init(_player, towerDatas);
+            towerMenuPresenter.MenuItemClick += OnMenuItemClick;
+        }
+
+        private void Update()
+        {
+            foreach (var tower in towerSystemPresenter.Towers)
+            {
+                var minDistanceToCastle = 0.0f;
+                EnemyView targetEnemyView = null;
+                
+                foreach (var enemy in enemySystemPresenter.Enemies)
+                {
+                    var enemyCompletePathPercent = enemySystemPresenter.CompletePathPercent(enemy);
+                    var distanceToTower = Vector3.Distance(enemy.transform.position, tower.transform.position);
+                    
+                    if (distanceToTower <= tower.TowerData.Range && enemyCompletePathPercent >= minDistanceToCastle)
+                    {
+                        minDistanceToCastle = enemyCompletePathPercent;
+                        targetEnemyView = enemy;
+                    }
+                }
+
+                if (targetEnemyView != null)
+                {
+                    tower.SetTarget(targetEnemyView.transform);
+                }
+            }
         }
 
         private void OnDestroy()
@@ -54,15 +83,15 @@ namespace Scenes.TowersScene
             towerSystemPresenter.TowerSlotClick -= OnTowerSlotClick;
             _player.Gold.ValueChanged -= OnGoldValueChanged;
             _player.Health.ValueChanged -= OnHealthValueChanged;
-            _towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
+            towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
         }
         
         private void OnTowerSlotClick(TowerSlotView towerSlot)
         {
             _selectedTowerSlot = towerSlot;
             
-            _towerMenuPresenter.HideTowerMenu();
-            _towerMenuPresenter.ShowTowerMenu(towerSlot);
+            towerMenuPresenter.HideTowerMenu();
+            towerMenuPresenter.ShowTowerMenu(towerSlot);
         }
 
         private void OnMenuItemClick(TowerMenuItemArgs args)

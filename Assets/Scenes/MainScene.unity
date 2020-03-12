@@ -814,10 +814,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f36d7c5c0ea5b3c4197f80c7f460756c, type: 2}
   - {fileID: 11400000, guid: 3208f8dd94e552c44b71b523452d20a4, type: 2}
   - {fileID: 11400000, guid: dad053873b2afea4d874669b6543fcc0, type: 2}
-  _towerMenuPresenter: {fileID: 168617899}
+  towerMenuPresenter: {fileID: 168617899}
   startHealth: 100
   startGold: 1000
-  _enemySystemPresenter: {fileID: 1489383399}
+  playerCastle: {fileID: 2137732894}
+  enemySystemPresenter: {fileID: 1489383399}
 --- !u!4 &900327303
 Transform:
   m_ObjectHideFlags: 0
@@ -1896,6 +1897,7 @@ MonoBehaviour:
   enemyDatas:
   - {fileID: 11400000, guid: 03e00cb3da886164298b6bfa74894c1e, type: 2}
   - {fileID: 11400000, guid: b0fc1442d8d02524299105e4f39c45e5, type: 2}
+  - {fileID: 11400000, guid: ecf080ba50c52894c9fb9932e5d800a3, type: 2}
 --- !u!114 &1507735013 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3382116042564621550, guid: b318da04a72c5bf46876d36ce095f092,

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sphere
   m_EditorClassIdentifier: 
   Health: 20
-  MovingSpeed: 10
+  MovingSpeed: 7
   Damage: 2
   MinGold: 5
   MaxGold: 10

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Towers.Views;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace Towers
     {
         [SerializeField] 
         private TowerSystemView view;
+
+        public List<TowerView> Towers { get; } = new List<TowerView>();
         
         public event Action<TowerSlotView> TowerSlotClick;
         
@@ -31,9 +34,14 @@ namespace Towers
         {
             var towerView = Instantiate(towerData.towerPrefab);
             towerView.SetData(towerData);
+            Towers.Add(towerView);
             view.SetTower(towerSlotView, towerView);
         }
 
-        public void SellTower(TowerSlotView selectedTowerSlot) => view.SellTower(selectedTowerSlot);
+        public void SellTower(TowerSlotView selectedTowerSlot)
+        {
+            view.SellTower(selectedTowerSlot);
+            Towers.Remove(selectedTowerSlot.TowerView);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using EnemySystem.Views;
 using Misc;
 using UnityEngine;
@@ -9,8 +10,11 @@ public class EnemySystemPresenter : MonoBehaviour
     private EnemySystemView enemySystemView;
     [SerializeField] 
     private EnemyData[] enemyDatas;
-
-    private const float spawnEachSeconds = 1;
+    
+    public List<EnemyView> Enemies { get; } = new List<EnemyView>();
+    public float CompletePathPercent(EnemyView view) => enemySystemView.CompletePathPercent(view);
+    
+    private const float spawnEachSeconds = 0.5f;
     private const int durationSeconds = 10;
 
     private PrefabPoolManager<EnemyView> _poolManager = new PrefabPoolManager<EnemyView>();
@@ -29,11 +33,6 @@ public class EnemySystemPresenter : MonoBehaviour
         _poolManager = null;
     }
 
-    private void OnEnemyCompletePath(EnemyView obj)
-    {
-        _poolManager.GetPool(obj.EnemyData.enemyViewPrefab).ReleaseObject(obj);
-    }
-
     public void StartWave()
     {
         StartCoroutine(SpawnCoroutine(durationSeconds, spawnEachSeconds));
@@ -45,7 +44,14 @@ public class EnemySystemPresenter : MonoBehaviour
 
         var newEnemy = enemyPool.GetObject();
         newEnemy.SetData(enemyData);
+        Enemies.Add(newEnemy);
         enemySystemView.StartEnemy(newEnemy, enemyData.MovingSpeed);
+    }
+    
+    private void OnEnemyCompletePath(EnemyView enemy)
+    {
+        Enemies.Remove(enemy);
+        _poolManager.GetPool(enemy.EnemyData.enemyViewPrefab).ReleaseObject(enemy);
     }
 
     private IEnumerator SpawnCoroutine(int duration, float spawnInterval)
