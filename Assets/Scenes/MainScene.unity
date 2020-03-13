@@ -777,12 +777,12 @@ GameObject:
   - component: {fileID: 667371531}
   - component: {fileID: 667371530}
   m_Layer: 5
-  m_Name: CountDownText
+  m_Name: CountDownNumberText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &667371529
 RectTransform:
   m_ObjectHideFlags: 0
@@ -816,7 +816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1056,7 +1056,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerSystemPresenter: {fileID: 2122031927}
-  canvas: {fileID: 1245663252}
   towerDatas:
   - {fileID: 11400000, guid: f36d7c5c0ea5b3c4197f80c7f460756c, type: 2}
   - {fileID: 11400000, guid: 3208f8dd94e552c44b71b523452d20a4, type: 2}
@@ -1072,6 +1071,8 @@ MonoBehaviour:
   wavesText: {fileID: 1142510393}
   camera: {fileID: 1538210358}
   gameOverScreenView: {fileID: 636459289}
+  countDownNumberText: {fileID: 667371530}
+  countDownText: {fileID: 1526400560}
 --- !u!4 &900327303
 Transform:
   m_ObjectHideFlags: 0
@@ -2497,12 +2498,12 @@ GameObject:
   - component: {fileID: 1526400561}
   - component: {fileID: 1526400560}
   m_Layer: 5
-  m_Name: CountDownText (1)
+  m_Name: NextWaveIText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1526400559
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2536,7 +2537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
