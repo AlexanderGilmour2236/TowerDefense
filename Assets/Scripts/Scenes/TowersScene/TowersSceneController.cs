@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Linq;
 using DG.Tweening;
+using EnemySystem;
 using EnemySystem.Views;
 using TMPro;
 using Towers;
 using Towers.Views;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Scenes.TowersScene
 {
@@ -13,8 +17,6 @@ namespace Scenes.TowersScene
         [Header("Towers")]
         [SerializeField]
         private TowerSystemPresenter towerSystemPresenter;
-        [SerializeField] 
-        private Canvas canvas;
         [SerializeField] 
         private TowerData[] towerDatas;
         [SerializeField] 
@@ -31,7 +33,9 @@ namespace Scenes.TowersScene
         [Header("Enemies")] 
         [SerializeField] 
         private EnemySystemPresenter enemySystemPresenter;
-
+        [SerializeField]
+        private GameWaves gameWaves;
+        
         [Header("UI")] 
         [SerializeField] 
         private TextMeshProUGUI goldsText; 
@@ -43,10 +47,15 @@ namespace Scenes.TowersScene
         private Camera camera;
         [SerializeField]
         private GameOverScreenView gameOverScreenView;
+        [SerializeField] 
+        private TextMeshProUGUI countDownNumberText;
+        [SerializeField]
+        private TextMeshProUGUI countDownText;
         
         private TowerSlotView _selectedTowerSlot;
         private Player.Player _player;
-        
+        private Coroutine _countDownCoroutine;
+
         private void Start()
         {
             towerSystemPresenter.Init();
@@ -55,14 +64,17 @@ namespace Scenes.TowersScene
             enemySystemPresenter.Init();
             enemySystemPresenter.EnemyDie += OnEnemyDie;
             enemySystemPresenter.EnemyCompletePath += OnEnemyCompletePath;
+            enemySystemPresenter.WaveComplete += OnWaveComplete;
             
             _player = new Player.Player();
             
             _player.Gold.ValueChanged += OnGoldValueChanged;
             _player.Health.ValueChanged += OnHealthValueChanged;
+            _player.CurrentWaveCount.ValueChanged += OnCurrentWaveCountChanged;
             
             _player.Gold.Value = startGold;
             _player.Health.Value = startHealth;
+            _player.CurrentWaveCount.Value = 0;
             
             towerMenuPresenter.Init(_player, towerDatas);
             towerMenuPresenter.MenuItemClick += OnMenuItemClick;
@@ -97,20 +109,71 @@ namespace Scenes.TowersScene
         private void OnDestroy()
         {
             towerSystemPresenter.TowerSlotClick -= OnTowerSlotClick;
+            towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
+            
             _player.Gold.ValueChanged -= OnGoldValueChanged;
             _player.Health.ValueChanged -= OnHealthValueChanged;
-            towerMenuPresenter.MenuItemClick -= OnMenuItemClick;
+            _player.CurrentWaveCount.ValueChanged -= OnCurrentWaveCountChanged;
+            
             enemySystemPresenter.EnemyDie -= OnEnemyDie;
             enemySystemPresenter.EnemyCompletePath -= OnEnemyCompletePath;
+            enemySystemPresenter.WaveComplete -= OnWaveComplete;
+            
             gameOverScreenView.ButtonClick -= StartGame;
+        }
+
+        private void OnWaveComplete()
+        {
+            if (_countDownCoroutine != null)
+            {
+                StopCoroutine(_countDownCoroutine);
+                _countDownCoroutine = null;
+            }
+            
+            var nextWaveCount = ++_player.CurrentWaveCount.Value;
+
+            if (gameWaves.EnemyWaves.Length <= nextWaveCount)
+            {
+                GameOver(true);                
+                return;
+            }
+            
+            _countDownCoroutine = StartCoroutine(CountDownBeforeWave(5, () =>
+            {
+                enemySystemPresenter.StartWave(gameWaves.EnemyWaves[nextWaveCount]);
+            }));
+        }
+
+        private IEnumerator CountDownBeforeWave(float seconds, Action callback)
+        {
+            countDownText.gameObject.SetActive(true);
+            countDownNumberText.gameObject.SetActive(true);
+            
+            var secondsLeft = seconds;
+            while (secondsLeft>=0)
+            {
+                countDownNumberText.text = secondsLeft.ToString();
+                yield return new WaitForSeconds(1);
+                secondsLeft--;
+            }
+            countDownText.gameObject.SetActive(false);
+            countDownNumberText.gameObject.SetActive(false);
+
+            callback?.Invoke();
         }
 
         private void StartGame()
         {
+            _player.CurrentWaveCount.Value = 0;
+            
             gameOverScreenView.gameObject.SetActive(false);
             _player.Gold.Value = startGold;
             _player.Health.Value = startHealth;
-            enemySystemPresenter.StartWave();
+            
+            _countDownCoroutine = StartCoroutine(CountDownBeforeWave(3, () =>
+            {
+                enemySystemPresenter.StartWave(gameWaves.EnemyWaves[0]);
+            }));
         }
         
         private void LoseEnemyTarget(EnemyView enemyView)
@@ -130,6 +193,7 @@ namespace Scenes.TowersScene
             if (_player.Health.Value <= 0)
             {
                 GameOver(false);
+                return;
             }
             LoseEnemyTarget(enemy);
             camera.transform.DOShakePosition(0.1f, 0.2f);
@@ -137,6 +201,12 @@ namespace Scenes.TowersScene
 
         private void OnTowerSlotClick(TowerSlotView towerSlot)
         {
+            if (_selectedTowerSlot != null && _selectedTowerSlot == towerSlot)
+            {
+                _selectedTowerSlot = null;
+                towerMenuPresenter.HideTowerMenu();
+                return;
+            }
             _selectedTowerSlot = towerSlot;
             
             towerMenuPresenter.HideTowerMenu();
@@ -159,6 +229,8 @@ namespace Scenes.TowersScene
         
         private void GameOver(bool isWin)
         {
+            camera.transform.DOShakePosition(2.0f, 1.5f);
+
             towerMenuPresenter.HideTowerMenu();
             towerSystemPresenter.ClearTowers();
             gameOverScreenView.gameObject.SetActive(true);
@@ -170,18 +242,21 @@ namespace Scenes.TowersScene
                 LoseEnemyTarget(enemy);
             }
             enemySystemPresenter.ClearEnemies();
-            
-            
         }
         
         private void OnGoldValueChanged(float gold)
         {
-            goldsText.text = ((int)gold).ToString();
+            goldsText.text = $"{gold}g";
         }
         
         private void OnHealthValueChanged(int health)
         {
-            healthText.text = health.ToString();
+            healthText.text = $"{health}hp";
+        }
+
+        private void OnCurrentWaveCountChanged(int count)
+        {
+            wavesText.text = $"{count+1}/{gameWaves.EnemyWaves.Length}";
         }
     }
 }

@@ -25,6 +25,9 @@
             <e p="EnemyData.cs" t="Include" />
             <e p="EnemySystemPresenter.cs" t="Include" />
             <e p="EnemyType.cs" t="Include" />
+            <e p="EnemyWave.cs" t="Include" />
+            <e p="EnemyWaveItem.cs" t="Include" />
+            <e p="GameWaves.cs" t="Include" />
             <e p="Views" t="Include">
               <e p="EnemyPath.cs" t="Include" />
               <e p="EnemySystemView.cs" t="Include" />

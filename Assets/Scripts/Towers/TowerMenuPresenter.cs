@@ -23,7 +23,7 @@ namespace Towers
             _player = player;
             _towerDatas = towerDatas;
         }
-        
+
         public void HideTowerMenu()
         {
             if (_currentTowerMenuView == null) return;
@@ -63,7 +63,7 @@ namespace Towers
         private void OnDestroy()
         {
             if(_currentTowerMenuView!=null)
-            _currentTowerMenuView.MenuItemClick -= OnMenuItemClick;
+                _currentTowerMenuView.MenuItemClick -= OnMenuItemClick;
         }
     }
 }

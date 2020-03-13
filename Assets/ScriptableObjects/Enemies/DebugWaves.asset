@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ab60974c4be664438e53a2e20528869, type: 3}
-  m_Name: Sphere
+  m_Script: {fileID: 11500000, guid: 78c753062bb94a3eae16e812ff63665c, type: 3}
+  m_Name: DebugWaves
   m_EditorClassIdentifier: 
-  Health: 50
-  MovingSpeed: 7
-  Damage: 5
-  MinGold: 5
-  MaxGold: 10
-  enemyViewPrefab: {fileID: -7128585488567635688, guid: 7f38822556364de488f2638196059bd5,
-    type: 3}
+  EnemyWaves:
+  - Duration: 13
+    SpawnEach: 0.5
+    WaveItems:
+    - EnemyData: {fileID: 11400000, guid: b0fc1442d8d02524299105e4f39c45e5, type: 2}
+      Count: 100

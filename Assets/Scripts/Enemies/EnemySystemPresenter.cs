@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using EnemySystem;
 using EnemySystem.Views;
 using Misc;
 using UnityEngine;
@@ -15,15 +16,16 @@ public class EnemySystemPresenter : MonoBehaviour
     
     public List<EnemyView> Enemies { get; } = new List<EnemyView>();
     public float CompletePathPercent(EnemyView view) => enemySystemView.CompletePathPercent(view);
-    
-    private const float spawnEachSeconds = 0.2f;
-    private const float durationSeconds = 10;
 
     private PrefabPoolManager<EnemyView> _poolManager = new PrefabPoolManager<EnemyView>();
     private Coroutine _spawnCoroutine;
+    private int _enemyWaveItemIndex;
+    private int _enemyWaveItemSpawnedCount;
+    private bool _spawnComplete;
 
     public event Action<EnemyView> EnemyDie;
     public event Action<EnemyView> EnemyCompletePath;
+    public event Action WaveComplete; 
     
     public void Init()
     {
@@ -40,9 +42,10 @@ public class EnemySystemPresenter : MonoBehaviour
         _poolManager = null;
     }
 
-    public void StartWave()
+    public void StartWave(EnemyWave enemyWave)
     {
-        _spawnCoroutine = StartCoroutine(SpawnCoroutine(durationSeconds, spawnEachSeconds));
+        _enemyWaveItemIndex = 0;
+        _spawnCoroutine = StartCoroutine(SpawnCoroutine(enemyWave));
     }
 
     private void SpawnEnemy(EnemyData enemyData)
@@ -79,25 +82,51 @@ public class EnemySystemPresenter : MonoBehaviour
     private void OnEnemyCompletePath(EnemyView enemy)
     {
         DestroyEnemy(enemy);
+        CheckWaveComplete();
         EnemyCompletePath?.Invoke(enemy);
     }
-    
+
     private void OnEnemyDie(EnemyView enemy)
     {
         DestroyEnemy(enemy);
         EnemyDie?.Invoke(enemy);
+        CheckWaveComplete();
+    }
+    
+    private void CheckWaveComplete()
+    {
+        if(_spawnComplete && Enemies.Count == 0)
+            WaveComplete?.Invoke();
     }
 
-    private IEnumerator SpawnCoroutine(float duration, float spawnInterval)
+    private IEnumerator SpawnCoroutine(EnemyWave enemyWave)
     {
-        var timeLeft = duration;
+        var timeLeft = enemyWave.Duration;
+        _enemyWaveItemSpawnedCount = 0;
+        _enemyWaveItemIndex = 0;
+        _spawnComplete = false;
+        
         while (timeLeft > 0)
         {
-            yield return new WaitForSeconds(spawnInterval);
-            timeLeft -= spawnInterval;
-            SpawnEnemy(enemyDatas[Random.Range(0,enemyDatas.Length)]);
+            yield return new WaitForSeconds(enemyWave.SpawnEach);
+            timeLeft -= enemyWave.SpawnEach;
+
+            var spawnRandom = enemyWave.WaveItems.Length <= _enemyWaveItemIndex 
+                              || enemyWave.WaveItems[_enemyWaveItemIndex].EnemyData == null;
+            
+            // Spawn random enemy if there is no EnemyData in WaveItem
+            SpawnEnemy(!spawnRandom ?
+                enemyWave.WaveItems[_enemyWaveItemIndex].EnemyData 
+                : enemyDatas[Random.Range(0,enemyDatas.Length)]);
+
+            _enemyWaveItemSpawnedCount++;
+
+            if (enemyWave.WaveItems.Length > _enemyWaveItemIndex && enemyWave.WaveItems[_enemyWaveItemIndex].Count <= _enemyWaveItemSpawnedCount)
+            {
+                _enemyWaveItemIndex++;
+                _enemyWaveItemSpawnedCount = 0;
+            }
         }
+        _spawnComplete = true;
     }
-
-
 }

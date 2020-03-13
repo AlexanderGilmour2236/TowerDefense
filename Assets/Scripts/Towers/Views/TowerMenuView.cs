@@ -9,6 +9,8 @@ namespace Towers.Views
     {
         [SerializeField] 
         private TowerMenuItem towerMenuItemPrefab;
+        [SerializeField] 
+        private RectTransform itemsParent;
         
         private List<TowerMenuItem> _items = new List<TowerMenuItem>();
         
@@ -27,7 +29,7 @@ namespace Towers.Views
         {
             foreach (var arg in args)
             {
-                var item = Instantiate(towerMenuItemPrefab, transform);
+                var item = Instantiate(towerMenuItemPrefab, itemsParent);
 
                 var button = item.GetComponent<Button>();
                 
@@ -61,6 +63,10 @@ namespace Towers.Views
             );
 
             towerMenuView.transform.localPosition = proportionalPosition - uiOffset;
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(itemsParent);
+
+            itemsParent.localPosition = (proportionalPosition - uiOffset).y > 0 ? new Vector2(0,itemsParent.rect.height * -0.5f) : new Vector2(0,itemsParent.rect.height * 0.5f);
         }
     }
 }

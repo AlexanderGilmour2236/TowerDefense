@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Sniper
   BuiltPrice: 500
-  Range: 30
+  Range: 25
   ShootInterval: 3
   Damage: 100
   SellMultiplier: 0.5
