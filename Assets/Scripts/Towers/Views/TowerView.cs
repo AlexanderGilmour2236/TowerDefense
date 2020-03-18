@@ -24,16 +24,18 @@ namespace Towers.Views
 
         public void SetTarget(EnemyView target)
         {
-            if (Target != null)
+            if (target == Target)
             {
-                //if (target == Target) return;
-
+                return;
+            }
+            
+            if (target != null)
+            {
                 if (_shootingCoroutine == null)
                 {
                     Target = target;
                     _shootingCoroutine = StartCoroutine(TowerShootingCoroutine());
-                    return;
-                }
+                } 
             }
             Target = target;
         }
@@ -45,8 +47,8 @@ namespace Towers.Views
                 return;
             }
 
-            var targetDirerction = Target.transform.position - transform.position;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirerction), Time.time * 0.5f);
+            var targetDirection = Target.transform.position - transform.position;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetDirection), Time.time * 0.3f);
         }
 
         private void PlayShootAnimation()
@@ -58,11 +60,31 @@ namespace Towers.Views
         {
             while (Target != null)
             {
-                Target.TakeDamage(TowerData.Damage);
-                PlayShootAnimation();
+                var normalizedDirection = (Target.transform.position - transform.position).normalized;
+                var targetInFrontOf = Vector3.Dot(normalizedDirection, transform.forward);
                 
+                if (targetInFrontOf > 0.8f)
+                {
+                    Target.TakeDamage(TowerData.Damage);
+                    PlayShootAnimation();
+                }
+                else
+                {
+                    yield return this;
+                    continue;
+                }
+
                 yield return new WaitForSeconds(TowerData.ShootInterval);
             }
+            _shootingCoroutine = null;
+        }
+
+        private void OnDisable()
+        {
+            if (_shootingCoroutine == null) return;
+
+            Target = null;
+            StopCoroutine(_shootingCoroutine);
             _shootingCoroutine = null;
         }
     }

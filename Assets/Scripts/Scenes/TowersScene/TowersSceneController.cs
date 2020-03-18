@@ -88,7 +88,7 @@ namespace Scenes.TowersScene
         {
             foreach (var tower in towerSystemPresenter.Towers)
             {
-                var minDistanceToCastle = 0.0f;
+                var maxEnemyCompletePathPercent = 0.0f;
                 EnemyView targetEnemyView = null;
                 
                 foreach (var enemy in enemySystemPresenter.Enemies)
@@ -96,9 +96,9 @@ namespace Scenes.TowersScene
                     var enemyCompletePathPercent = enemySystemPresenter.CompletePathPercent(enemy);
                     var distanceToTower = Vector3.Distance(enemy.transform.position, tower.transform.position);
                     
-                    if (distanceToTower <= tower.TowerData.Range && enemyCompletePathPercent >= minDistanceToCastle)
+                    if (distanceToTower <= tower.TowerData.Range && enemyCompletePathPercent >= maxEnemyCompletePathPercent)
                     {
-                        minDistanceToCastle = enemyCompletePathPercent;
+                        maxEnemyCompletePathPercent = enemyCompletePathPercent;
                         targetEnemyView = enemy;
                     }
                 }
